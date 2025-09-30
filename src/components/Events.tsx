@@ -1,68 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import { Calendar, MapPin, Clock } from 'lucide-react';
+import { Calendar, MapPin, Clock, ChevronRight } from 'lucide-react';
+
+interface Event {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  image_url: string;
+  type: 'upcoming' | 'past';
+}
 
 const Events: React.FC = () => {
-  const eventData = {
-    id: '1',
-    title: 'Brain Wired',
-    description:
-      'A fun and enjoyable freshers event for the club, filled with exciting games, challenges, and opportunities to meet fellow tech enthusiasts.',
-    date: '2025-09-14',
-    time: '10:00',
-    location: 'Ramappa Hall Complex',
-    image_url: '/eventposter.jpg',
-    max_attendees: 200,
-    current_attendees: 0,
-    type: 'upcoming',
-  };
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
 
-  const eventDateTime = new Date(`${eventData.date}T${eventData.time}:00`);
-  const [timeLeft, setTimeLeft] = useState<{
-    days: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
-  } | null>(null);
-  const [eventStatus, setEventStatus] = useState<
-    'upcoming' | 'ongoing' | 'past'
-  >(eventData.type);
+  const eventsData: Event[] = [
+    {
+      id: '1',
+      title: 'Brain Wired',
+      description:
+        'A fun and enjoyable freshers event for the club, filled with exciting games, challenges, and opportunities to meet fellow tech enthusiasts.',
+      date: '2025-09-14',
+      time: '10:00',
+      location: 'Ramappa Hall Complex',
+      image_url: '/eventposter.jpg',
+      type: 'upcoming',
+    },
+    {
+      id: '2',
+      title: 'Annual Tech Fest 2024',
+      description:
+        'Our biggest event of the year featuring workshops, competitions, and keynote speakers from the industry.',
+      date: '2024-11-20',
+      time: '09:00',
+      location: 'Main Auditorium',
+      image_url: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg',
+      type: 'past',
+    },
+    {
+      id: '3',
+      title: 'Satellite Communication Workshop',
+      description:
+        'Hands-on workshop on satellite communication systems and antenna design principles.',
+      date: '2024-10-15',
+      time: '14:00',
+      location: 'Electronics Lab',
+      image_url: 'https://images.pexels.com/photos/586019/pexels-photo-586019.jpeg',
+      type: 'past',
+    },
+  ];
 
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const now = new Date();
-      const difference = eventDateTime.getTime() - now.getTime();
+  const upcomingEvents = eventsData.filter(event => event.type === 'upcoming');
+  const pastEvents = eventsData.filter(event => event.type === 'past');
 
-      if (difference <= 0) {
-        const endTime = new Date(eventDateTime.getTime() + 3 * 60 * 60 * 1000);
-        if (now >= eventDateTime && now <= endTime) {
-          setEventStatus('ongoing');
-        } else {
-          setEventStatus('past');
-        }
-        return null;
-      }
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor(
-        (difference % (1000 * 60 * 60)) / (1000 * 60)
-      );
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-      return { days, hours, minutes, seconds };
-    };
-
-    setTimeLeft(calculateTimeLeft());
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  const displayEvents = activeTab === 'upcoming' ? upcomingEvents : pastEvents;
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -73,121 +65,115 @@ const Events: React.FC = () => {
     });
   };
 
-  if (eventStatus === 'past') {
-    return (
-      <section id="events" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-            Club <span className="text-blue-600">Events</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Stay updated with our latest workshops, competitions, and community
-            gatherings.
-          </p>
-          <div className="py-16">
-            <div className="text-6xl mb-4">📅</div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">
-              No Upcoming Events
-            </h3>
-            <p className="text-gray-600">
-              This event has already concluded. Check back soon for new events!
-            </p>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section id="events" className="py-20 bg-white">
-      <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="events" className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-            <span className="text-blue-600">Upcoming</span> Event
+        <div className="text-center mb-12">
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Club <span className="text-blue-600 dark:text-blue-400">Events</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Join us for our next big event!
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            Stay updated with our latest workshops, competitions, and community gatherings.
           </p>
         </div>
 
-        {/* Event Card */}
-        <div className="event-card bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden group">
-          {/* Event Image */}
-          <div className="relative h-auto overflow-hidden bg-gray-100">
-            <img
-              src={eventData.image_url}
-              alt={eventData.title}
-              loading="lazy"
-              onError={(e) => {
-                e.currentTarget.src =
-                  'https://placehold.co/800x480/E2E8F0/94a3b8?text=Image+Not+Found';
-                e.currentTarget.alt = 'Placeholder image';
-              }}
-              className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-            />
+        {/* Tab Navigation */}
+        <div className="flex justify-center mb-12">
+          <div className="inline-flex bg-gray-200 dark:bg-gray-700 rounded-full p-1 shadow-lg">
+            <button
+              onClick={() => setActiveTab('upcoming')}
+              className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
+                activeTab === 'upcoming'
+                  ? 'bg-blue-600 text-white shadow-lg transform scale-105'
+                  : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              Upcoming Events
+            </button>
+            <button
+              onClick={() => setActiveTab('past')}
+              className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
+                activeTab === 'past'
+                  ? 'bg-blue-600 text-white shadow-lg transform scale-105'
+                  : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              Past Events
+            </button>
           </div>
+        </div>
 
-          {/* Event Content */}
-          <div className="p-6 sm:p-8">
-            <h3 className="text-3xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300 text-center">
-              {eventData.title}
-            </h3>
-            <p className="text-gray-600 mb-4 text-center leading-relaxed">
-              {eventData.description}
-            </p>
-
-            <div className="space-y-3 mb-6">
-              <div className="flex items-center text-base text-gray-600 justify-center">
-                <Calendar className="h-5 w-5 mr-3 text-blue-500" />
-                <span>{formatDate(eventData.date)}</span>
-              </div>
-              <div className="flex items-center text-base text-gray-600 justify-center">
-                <Clock className="h-5 w-5 mr-3 text-blue-500" />
-                <span>{eventData.time} - 01:00 PM</span>
-              </div>
-              <div className="flex items-center text-base text-gray-600 justify-center">
-                <MapPin className="h-5 w-5 mr-3 text-blue-500" />
-                <span>{eventData.location}</span>
-              </div>
-            </div>
-
-            {/* Timer or Status */}
-            {eventStatus === 'ongoing' ? (
-              <div className="text-center font-bold text-lg text-green-600 py-3 rounded-lg bg-green-50 shadow-inner">
-                Event is LIVE!
-              </div>
-            ) : (
-              timeLeft && (
-                <div className="text-center bg-gradient-to-r from-blue-100 to-indigo-100 py-4 rounded-lg shadow-inner">
-                  <h4 className="text-sm text-gray-600 mb-2">
-                    Time until event:
-                  </h4>
-                  <div className="flex justify-center items-center space-x-4 text-blue-600 font-extrabold text-2xl sm:text-3xl">
-                    <div className="text-center">
-                      <div className="countdown-number">{timeLeft.days}</div>
-                      <div className="text-xs font-normal">Days</div>
-                    </div>
-                    <span>:</span>
-                    <div className="text-center">
-                      <div className="countdown-number">{timeLeft.hours}</div>
-                      <div className="text-xs font-normal">Hours</div>
-                    </div>
-                    <span>:</span>
-                    <div className="text-center">
-                      <div className="countdown-number">{timeLeft.minutes}</div>
-                      <div className="text-xs font-normal">Minutes</div>
-                    </div>
-                    <span>:</span>
-                    <div className="text-center">
-                      <div className="countdown-number">{timeLeft.seconds}</div>
-                      <div className="text-xs font-normal">Seconds</div>
-                    </div>
+        {/* Events Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {displayEvents.length > 0 ? (
+            displayEvents.map((event, index) => (
+              <div
+                key={event.id}
+                className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                {/* Event Image */}
+                <div className="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-700">
+                  <img
+                    src={event.image_url}
+                    alt={event.title}
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.src =
+                        'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=800';
+                    }}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h3 className="text-2xl font-bold text-white mb-1">
+                      {event.title}
+                    </h3>
                   </div>
                 </div>
-              )
-            )}
-          </div>
+
+                {/* Event Content */}
+                <div className="p-6">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2 leading-relaxed">
+                    {event.description}
+                  </p>
+
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                      <Calendar className="h-4 w-4 mr-2 text-blue-500" />
+                      <span>{formatDate(event.date)}</span>
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                      <Clock className="h-4 w-4 mr-2 text-blue-500" />
+                      <span>{event.time}</span>
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                      <MapPin className="h-4 w-4 mr-2 text-blue-500" />
+                      <span>{event.location}</span>
+                    </div>
+                  </div>
+
+                  <button className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-300 group/btn">
+                    Learn More
+                    <ChevronRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="col-span-full py-16 text-center">
+              <div className="text-6xl mb-4">📅</div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                No {activeTab === 'upcoming' ? 'Upcoming' : 'Past'} Events
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {activeTab === 'upcoming'
+                  ? 'Check back soon for new events!'
+                  : 'Our past events will be displayed here.'}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </section>

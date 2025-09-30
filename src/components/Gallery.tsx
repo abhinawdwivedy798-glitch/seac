@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { X, ChevronLeft, ChevronRight, Download, Share2 } from 'lucide-react';
+import { X, ZoomIn } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Dummy gallery data
 const dummyImages = [
   {
     id: '1',
@@ -51,7 +50,7 @@ const dummyImages = [
     id: '6',
     title: 'Annual Tech Fair',
     description: 'SEAC booth at the annual technology fair',
-    image_url: 'https://images.pexels.com/photos/2159/flight-sky-earth-space.jpg?auto=compress&cs=tinysrgb&w=800',
+    image_url: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=800',
     category: 'events',
     created_at: '2023-12-20T09:30:00Z'
   },
@@ -59,7 +58,7 @@ const dummyImages = [
     id: '7',
     title: 'Antenna Testing',
     description: 'Testing new antenna designs for satellite communication',
-    image_url: 'https://images.pexels.com/photos/586095/pexels-photo-586095.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image_url: 'https://images.pexels.com/photos/586019/pexels-photo-586019.jpeg?auto=compress&cs=tinysrgb&w=800',
     category: 'projects',
     created_at: '2023-12-15T15:20:00Z'
   },
@@ -67,7 +66,7 @@ const dummyImages = [
     id: '8',
     title: 'Electronics Lab Session',
     description: 'Students working on circuit analysis',
-    image_url: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image_url: 'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800',
     category: 'workshops',
     created_at: '2023-12-10T12:00:00Z'
   },
@@ -75,34 +74,10 @@ const dummyImages = [
     id: '9',
     title: 'Field Day Setup',
     description: 'Annual amateur radio field day preparation',
-    image_url: 'https://images.pexels.com/photos/159045/the-interior-of-the-repair-interior-159045.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image_url: 'https://images.pexels.com/photos/356079/pexels-photo-356079.jpeg?auto=compress&cs=tinysrgb&w=800',
     category: 'events',
     created_at: '2023-12-05T08:45:00Z'
   },
-  {
-    id: '10',
-    title: 'Microcontroller Programming',
-    description: 'Workshop on embedded systems programming',
-    image_url: 'https://images.pexels.com/photos/163100/circuit-circuit-board-resistor-computer-163100.jpeg?auto=compress&cs=tinysrgb&w=800',
-    category: 'workshops',
-    created_at: '2023-11-28T14:15:00Z'
-  },
-  {
-    id: '11',
-    title: 'Satellite Communication Demo',
-    description: 'Live demonstration of satellite communication',
-    image_url: 'https://images.pexels.com/photos/2159/flight-sky-earth-space.jpg?auto=compress&cs=tinysrgb&w=800',
-    category: 'events',
-    created_at: '2023-11-20T10:30:00Z'
-  },
-  {
-    id: '12',
-    title: 'RF Measurement Equipment',
-    description: 'Professional RF testing and measurement tools',
-    image_url: 'https://images.pexels.com/photos/159045/the-interior-of-the-repair-interior-159045.jpeg?auto=compress&cs=tinysrgb&w=800',
-    category: 'equipment',
-    created_at: '2023-11-15T16:45:00Z'
-  }
 ];
 
 const Gallery: React.FC = () => {
@@ -111,7 +86,7 @@ const Gallery: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
   const categories = [
-    { id: 'all', name: 'All Photos', count: dummyImages.length },
+    { id: 'all', name: 'All', count: dummyImages.length },
     { id: 'workshops', name: 'Workshops', count: dummyImages.filter(img => img.category === 'workshops').length },
     { id: 'projects', name: 'Projects', count: dummyImages.filter(img => img.category === 'projects').length },
     { id: 'equipment', name: 'Equipment', count: dummyImages.filter(img => img.category === 'equipment').length },
@@ -124,7 +99,7 @@ const Gallery: React.FC = () => {
         duration: 0.8,
         y: 40,
         opacity: 0,
-        stagger: 0.1,
+        stagger: 0.08,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -136,8 +111,8 @@ const Gallery: React.FC = () => {
     return () => ctx.revert();
   }, [activeCategory]);
 
-  const filteredImages = activeCategory === 'all' 
-    ? dummyImages 
+  const filteredImages = activeCategory === 'all'
+    ? dummyImages
     : dummyImages.filter(img => img.category === activeCategory);
 
   const handleImageClick = (image: any) => {
@@ -150,153 +125,139 @@ const Gallery: React.FC = () => {
     document.body.style.overflow = 'auto';
   };
 
-  const handlePrevious = () => {
-    if (!selectedImage) return;
-    const currentIndex = filteredImages.findIndex(img => img.id === selectedImage.id);
-    const prevIndex = currentIndex > 0 ? currentIndex - 1 : filteredImages.length - 1;
-    setSelectedImage(filteredImages[prevIndex]);
-  };
-
-  const handleNext = () => {
-    if (!selectedImage) return;
-    const currentIndex = filteredImages.findIndex(img => img.id === selectedImage.id);
-    const nextIndex = currentIndex < filteredImages.length - 1 ? currentIndex + 1 : 0;
-    setSelectedImage(filteredImages[nextIndex]);
-  };
-
   return (
-    <section id="gallery" ref={sectionRef} className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-            Photo <span className="text-blue-600">Gallery</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Explore our collection of images showcasing club activities, projects, and memorable moments.
-          </p>
-        </div>
+    <>
+      <section id="gallery" ref={sectionRef} className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              Our <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Gallery</span>
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Explore moments from our events, workshops, and club activities
+            </p>
+          </div>
 
-        {/* Category Filter and Upload Button */}
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-4">
-          <div className="flex flex-wrap justify-center gap-4">
+          {/* Category Filter */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                className={`px-6 py-2.5 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 ${
                   activeCategory === category.id
-                    ? 'bg-blue-600 text-white shadow-lg'
-                    : 'bg-white text-gray-600 hover:bg-blue-50 hover:text-blue-600 shadow-md'
+                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/30'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-md'
                 }`}
               >
-                {category.name} ({category.count})
+                {category.name}
+                {activeCategory === category.id && (
+                  <span className="ml-2 px-2 py-0.5 bg-white/20 rounded-full text-xs">
+                    {category.count}
+                  </span>
+                )}
               </button>
             ))}
           </div>
-        </div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredImages.map((image, index) => (
-            <div
-              key={image.id}
-              className="gallery-item group cursor-pointer"
-              onClick={() => handleImageClick(image)}
-            >
-              <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
-                <div className="aspect-square overflow-hidden">
+          {/* Gallery Grid - Masonry Style */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+            {filteredImages.map((image, index) => (
+              <div
+                key={image.id}
+                className="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer break-inside-avoid bg-white dark:bg-gray-800"
+                onClick={() => handleImageClick(image)}
+              >
+                <div className="relative">
                   <img
                     src={image.image_url}
                     alt={image.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
                   />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <h3 className="font-semibold text-sm mb-1">{image.title}</h3>
-                    <p className="text-xs opacity-90">{new Date(image.created_at).toLocaleDateString()}</p>
-                  </div>
-                </div>
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
-                    <div className="w-4 h-4 bg-white rounded-full"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <div className="absolute inset-0 flex flex-col justify-end p-6">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex-1">
+                          <h3 className="text-white font-bold text-lg mb-2">
+                            {image.title}
+                          </h3>
+                          <p className="text-gray-200 text-sm mb-3">
+                            {image.description}
+                          </p>
+                          <span className="inline-block px-3 py-1 bg-blue-600 text-white text-xs rounded-full">
+                            {categories.find(c => c.id === image.category)?.name}
+                          </span>
+                        </div>
+                        <ZoomIn className="text-white h-6 w-6 ml-4 flex-shrink-0" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Empty State */}
-        {filteredImages.length === 0 && (
-          <div className="text-center py-16">
-            <div className="text-6xl mb-4">📷</div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">No Photos Found</h3>
-            <p className="text-gray-600">
-              No photos available for the selected category.
-            </p>
+            ))}
           </div>
-        )}
-      </div>
 
-      {/* Lightbox */}
+          {/* Empty State */}
+          {filteredImages.length === 0 && (
+            <div className="text-center py-16">
+              <div className="text-6xl mb-4">📷</div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">No Photos Found</h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                No photos available for the selected category.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Lightbox Modal */}
       {selectedImage && (
-        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
-          <div className="relative max-w-4xl max-h-full">
-            {/* Close Button */}
-            <button
-              onClick={handleCloseLightbox}
-              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors duration-200"
-            >
-              <X className="h-8 w-8" />
-            </button>
-
-            {/* Navigation Buttons */}
-            <button
-              onClick={handlePrevious}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors duration-200"
-            >
-              <ChevronLeft className="h-12 w-12" />
-            </button>
-            <button
-              onClick={handleNext}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors duration-200"
-            >
-              <ChevronRight className="h-12 w-12" />
-            </button>
-
-            {/* Image */}
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
+          onClick={handleCloseLightbox}
+        >
+          <button
+            onClick={handleCloseLightbox}
+            className="absolute top-4 right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors duration-300 z-10 group"
+            aria-label="Close"
+          >
+            <X className="h-6 w-6 text-white group-hover:rotate-90 transition-transform duration-300" />
+          </button>
+          <div
+            className="relative max-w-6xl max-h-[90vh] w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
             <img
               src={selectedImage.image_url}
               alt={selectedImage.title}
-              className="max-w-full max-h-full object-contain rounded-lg"
+              className="w-full h-full object-contain rounded-lg shadow-2xl"
             />
-
-            {/* Image Info */}
-            <div className="absolute bottom-4 left-4 right-4 text-white">
-              <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4">
-                <h3 className="text-xl font-semibold mb-2">{selectedImage.title}</h3>
-                <p className="text-sm opacity-90">
-                  {new Date(selectedImage.created_at).toLocaleDateString()}
-                </p>
-                <div className="flex gap-4 mt-4">
-                  <button className="flex items-center text-sm hover:text-blue-300 transition-colors duration-200">
-                    <Download className="h-4 w-4 mr-2" />
-                    Download
-                  </button>
-                  <button className="flex items-center text-sm hover:text-blue-300 transition-colors duration-200">
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share
-                  </button>
-                </div>
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent p-8 rounded-b-lg">
+              <h3 className="text-white font-bold text-2xl mb-2">
+                {selectedImage.title}
+              </h3>
+              <p className="text-gray-300 text-sm mb-4">
+                {selectedImage.description}
+              </p>
+              <div className="flex items-center gap-4">
+                <span className="px-4 py-1.5 bg-blue-600 text-white text-sm rounded-full inline-block">
+                  {categories.find(c => c.id === selectedImage.category)?.name}
+                </span>
+                <span className="text-gray-400 text-sm">
+                  {new Date(selectedImage.created_at).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </span>
               </div>
             </div>
           </div>
         </div>
       )}
-    </section>
+    </>
   );
 };
 

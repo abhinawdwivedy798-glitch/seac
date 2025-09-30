@@ -87,14 +87,14 @@ const Contact: React.FC = () => {
   ];
 
   return (
-    <section id="contact" ref={sectionRef} className="py-20 bg-white">
+    <section id="contact" ref={sectionRef} className="py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-            Get In <span className="text-blue-600">Touch</span>
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Get In <span className="text-blue-600 dark:text-blue-400">Touch</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Have questions about our club or want to join our community? We'd love to hear from you!
           </p>
         </div>
@@ -102,17 +102,17 @@ const Contact: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Contact Information */}
           <div className="lg:col-span-1">
-            <h3 className="text-2xl font-bold text-gray-900 mb-8">Contact Information</h3>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Contact Information</h3>
             <div className="space-y-6">
               {contactInfo.map((info, index) => (
-                <div key={index} className="contact-item flex items-start space-x-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors duration-300">
+                <div key={index} className="contact-item flex items-start space-x-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-300">
                   <div className={`bg-gradient-to-r ${info.color} w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0`}>
                     <info.icon className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold text-gray-900 mb-2">{info.title}</h4>
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{info.title}</h4>
                     {info.details.map((detail, idx) => (
-                      <p key={idx} className="text-gray-600 text-sm">{detail}</p>
+                      <p key={idx} className="text-gray-600 dark:text-gray-300 text-sm">{detail}</p>
                     ))}
                   </div>
                 </div>
@@ -121,13 +121,13 @@ const Contact: React.FC = () => {
 
             {/* Social Links */}
             <div className="mt-8">
-              <h4 className="text-lg font-semibold text-gray-900 mb-4">Follow Us</h4>
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Follow Us</h4>
               <div className="flex space-x-4">
                 {socialLinks.map((social, index) => (
                   <a
                     key={index}
                     href={social.href}
-                    className={`w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center text-gray-600 ${social.color} transition-all duration-300 hover:scale-110`}
+                    className={`w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center text-gray-600 dark:text-gray-300 ${social.color} transition-all duration-300 hover:scale-110`}
                   >
                     <social.icon className="h-6 w-6" />
                   </a>
@@ -137,21 +137,21 @@ const Contact: React.FC = () => {
 
             {/* Map Placeholder */}
             <div className="mt-8 contact-item">
-              <h4 className="text-lg font-semibold text-gray-900 mb-4">Find Us</h4>
-              <div className="bg-gray-200 rounded-2xl h-48 flex items-center justify-center">
-                <p className="text-gray-500">Interactive Map Coming Soon</p>
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Find Us</h4>
+              <div className="bg-gray-200 dark:bg-gray-800 rounded-2xl h-48 flex items-center justify-center">
+                <p className="text-gray-500 dark:text-gray-400">Interactive Map Coming Soon</p>
               </div>
             </div>
           </div>
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="contact-item bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-8">Send us a Message</h3>
+            <div className="contact-item bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-gray-800 dark:to-gray-700 rounded-3xl p-8">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Send us a Message</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Full Name *
                     </label>
                     <input
@@ -161,12 +161,12 @@ const Contact: React.FC = () => {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      className="w-full px-4 py-3 bg-white dark:bg-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="Your full name"
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Email Address *
                     </label>
                     <input
@@ -176,14 +176,14 @@ const Contact: React.FC = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      className="w-full px-4 py-3 bg-white dark:bg-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="your@email.com"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Subject *
                   </label>
                   <input
@@ -193,13 +193,13 @@ const Contact: React.FC = () => {
                     value={formData.subject}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 bg-white dark:bg-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="What is this about?"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Message *
                   </label>
                   <textarea
@@ -209,7 +209,7 @@ const Contact: React.FC = () => {
                     onChange={handleInputChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
+                    className="w-full px-4 py-3 bg-white dark:bg-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
                     placeholder="Your message..."
                   ></textarea>
                 </div>
@@ -233,8 +233,8 @@ const Contact: React.FC = () => {
                 </button>
               </form>
 
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <p className="text-sm text-gray-600 text-center">
+              <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-300 text-center">
                   We typically respond within 24 hours during business days.
                 </p>
               </div>

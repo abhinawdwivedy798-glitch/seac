@@ -72,14 +72,14 @@ const Activities: React.FC = () => {
   ];
 
   return (
-    <section id="activities" ref={sectionRef} className="py-20 bg-gray-50">
+    <section id="activities" ref={sectionRef} className="py-20 bg-gray-50 dark:bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-            Club <span className="text-blue-600">Activities</span>
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Club <span className="text-blue-600 dark:text-blue-400">Activities</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Discover the exciting world of satellite communication and electronics through our diverse 
             range of activities designed for all skill levels.
           </p>
@@ -89,25 +89,25 @@ const Activities: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {activities.map((activity, index) => (
             <div key={index} className="activity-card group">
-              <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 h-full">
+              <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 h-full">
                 {/* Icon */}
                 <div className={`bg-gradient-to-r ${activity.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   <activity.icon className="h-8 w-8 text-white" />
                 </div>
 
                 {/* Content */}
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
                   {activity.title}
                 </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                   {activity.description}
                 </p>
 
                 {/* Features */}
                 <div className="space-y-2">
                   {activity.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center text-sm text-gray-500">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
+                    <div key={idx} className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                      <div className="w-2 h-2 bg-blue-400 dark:bg-blue-500 rounded-full mr-3"></div>
                       {feature}
                     </div>
                   ))}
