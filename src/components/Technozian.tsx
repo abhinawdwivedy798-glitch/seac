@@ -71,11 +71,24 @@ const Technozian: React.FC = () => {
             <Zap className="h-5 w-5 text-yellow-300 animate-pulse" />
           </div>
 
-          <h2 className="text-6xl md:text-8xl font-black mb-6 tracking-tight">
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent animate-gradient-x">
-              TECHNOZIAN
-            </span>
-          </h2>
+          <div className="relative inline-block mb-6">
+            <h2 className="text-6xl md:text-9xl font-black tracking-wider relative techno-title">
+              <span className="relative inline-block">
+                {'TECHNOZIAN'.split('').map((letter, index) => (
+                  <span
+                    key={index}
+                    className="inline-block hover:scale-110 transition-transform duration-300 cursor-default techno-letter"
+                    style={{
+                      animationDelay: `${index * 0.1}s`,
+                    }}
+                  >
+                    {letter}
+                  </span>
+                ))}
+              </span>
+            </h2>
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 opacity-30 blur-2xl -z-10 animate-pulse-slow"></div>
+          </div>
 
           <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
             Our college's most <span className="text-cyan-400 font-bold">energetic</span> and <span className="text-blue-400 font-bold">electrifying</span> tech festival
@@ -209,6 +222,8 @@ const Technozian: React.FC = () => {
       </div>
 
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap');
+
         @keyframes gradient-x {
           0%, 100% {
             background-position: 0% 50%;
@@ -227,6 +242,78 @@ const Technozian: React.FC = () => {
         .delay-1000 {
           animation-delay: 1000ms;
         }
+        .animate-pulse-slow {
+          animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .techno-title {
+          font-family: 'Orbitron', monospace;
+          text-transform: uppercase;
+          letter-spacing: 0.15em;
+          background: linear-gradient(
+            45deg,
+            #0ea5e9,
+            #06b6d4,
+            #3b82f6,
+            #06b6d4,
+            #0ea5e9
+          );
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: techno-glow 3s ease-in-out infinite;
+          text-shadow:
+            0 0 10px rgba(6, 182, 212, 0.5),
+            0 0 20px rgba(14, 165, 233, 0.3),
+            0 0 30px rgba(59, 130, 246, 0.2);
+          filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.8))
+                  drop-shadow(0 0 20px rgba(14, 165, 233, 0.6))
+                  drop-shadow(0 0 30px rgba(59, 130, 246, 0.4));
+        }
+
+        @keyframes techno-glow {
+          0%, 100% {
+            background-position: 0% 50%;
+            filter:
+              drop-shadow(0 0 10px rgba(6, 182, 212, 0.8))
+              drop-shadow(0 0 20px rgba(14, 165, 233, 0.6))
+              drop-shadow(0 0 30px rgba(59, 130, 246, 0.4))
+              brightness(1.2);
+          }
+          50% {
+            background-position: 100% 50%;
+            filter:
+              drop-shadow(0 0 15px rgba(6, 182, 212, 1))
+              drop-shadow(0 0 30px rgba(14, 165, 233, 0.8))
+              drop-shadow(0 0 45px rgba(59, 130, 246, 0.6))
+              brightness(1.5);
+          }
+        }
+
+        .techno-letter {
+          animation: letter-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes letter-pulse {
+          0%, 100% {
+            transform: translateY(0) scale(1);
+          }
+          50% {
+            transform: translateY(-5px) scale(1.05);
+          }
+        }
+
+        .techno-letter:nth-child(1) { animation-delay: 0s; }
+        .techno-letter:nth-child(2) { animation-delay: 0.1s; }
+        .techno-letter:nth-child(3) { animation-delay: 0.2s; }
+        .techno-letter:nth-child(4) { animation-delay: 0.3s; }
+        .techno-letter:nth-child(5) { animation-delay: 0.4s; }
+        .techno-letter:nth-child(6) { animation-delay: 0.5s; }
+        .techno-letter:nth-child(7) { animation-delay: 0.6s; }
+        .techno-letter:nth-child(8) { animation-delay: 0.7s; }
+        .techno-letter:nth-child(9) { animation-delay: 0.8s; }
+        .techno-letter:nth-child(10) { animation-delay: 0.9s; }
       `}</style>
     </section>
   );
