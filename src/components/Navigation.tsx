@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Calendar, Users, Image, Mail, Info, Sun, Moon } from 'lucide-react';
+import { Menu, X, Calendar, Users, Image, Mail, Info, Sun, Moon, Zap } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
 const Navigation: React.FC = () => {
@@ -12,6 +12,7 @@ const Navigation: React.FC = () => {
     { id: 'activities', label: 'Activities', icon: Users, href: '#activities' },
     { id: 'team', label: 'Team', icon: Users, href: '#meet-our-team' },
     { id: 'events', label: 'Events', icon: Calendar, href: '#events' },
+    { id: 'technozian', label: 'Technozian', icon: Zap, href: '#technozian' },
     { id: 'gallery', label: 'Gallery', icon: Image, href: '#gallery' },
   ];
 

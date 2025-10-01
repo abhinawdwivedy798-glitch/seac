@@ -10,6 +10,7 @@ import About from './components/About';
 import Activities from './components/Activities';
 import TeamSection from './sections/TeamSection';
 import Events from './components/Events';
+import Technozian from './components/Technozian';
 import Gallery from './components/Gallery';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -24,11 +25,13 @@ function AppContent() {
     gsap.set('html', { scrollBehavior: 'smooth' });
     ScrollTrigger.refresh();
 
-    const hasSeenPopup = sessionStorage.getItem('hasSeenEventPopup');
-    if (!hasSeenPopup) {
+    const lastPopupDate = localStorage.getItem('lastEventPopupDate');
+    const today = new Date().toDateString();
+
+    if (lastPopupDate !== today) {
       const timer = setTimeout(() => {
         setShowPopup(true);
-        sessionStorage.setItem('hasSeenEventPopup', 'true');
+        localStorage.setItem('lastEventPopupDate', today);
       }, 2000);
       return () => clearTimeout(timer);
     }
@@ -58,6 +61,7 @@ function AppContent() {
         <Activities />
         <TeamSection />
         <Events />
+        <Technozian />
         <Gallery />
         <Contact />
       </main>
