@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -13,18 +13,40 @@ import Events from './components/Events';
 import Gallery from './components/Gallery';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import EventPopup from './components/EventPopup';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function AppContent() {
+  const [showPopup, setShowPopup] = useState(false);
+
   useEffect(() => {
     gsap.set('html', { scrollBehavior: 'smooth' });
     ScrollTrigger.refresh();
+
+    const hasSeenPopup = sessionStorage.getItem('hasSeenEventPopup');
+    if (!hasSeenPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(true);
+        sessionStorage.setItem('hasSeenEventPopup', 'true');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
+
+  const nextEvent = {
+    title: 'Brain Wired',
+    description:
+      'A fun and enjoyable freshers event for the club, filled with exciting games, challenges, and opportunities to meet fellow tech enthusiasts.',
+    date: '2025-09-14',
+    time: '10:00 AM',
+    location: 'Ramappa Hall Complex',
+    formLink: 'https://forms.google.com/your-form-link',
+  };
 
   return (
     <div className="font-inter bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -41,6 +63,9 @@ function AppContent() {
       </main>
       <Footer />
       <BackToTop />
+      {showPopup && (
+        <EventPopup event={nextEvent} onClose={() => setShowPopup(false)} />
+      )}
     </div>
   );
 }

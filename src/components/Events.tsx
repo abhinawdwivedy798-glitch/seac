@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Calendar, MapPin, Clock, ChevronRight } from 'lucide-react';
+import { Calendar, MapPin, Clock, ChevronRight, Users, User } from 'lucide-react';
 
 interface Event {
   id: string;
@@ -10,10 +10,14 @@ interface Event {
   location: string;
   image_url: string;
   type: 'upcoming' | 'past';
+  members?: string[];
+  poc?: string;
+  tentativeDate?: string;
 }
 
 const Events: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
+  const [countdowns, setCountdowns] = useState<Record<string, { days: number; hours: number; minutes: number; seconds: number }>>({});
 
   const eventsData: Event[] = [
     {
@@ -26,6 +30,9 @@ const Events: React.FC = () => {
       location: 'Ramappa Hall Complex',
       image_url: '/eventposter.jpg',
       type: 'upcoming',
+      members: ['Rajesh Kumar', 'Priya Sharma', 'Amit Patel', 'Neha Singh'],
+      poc: 'Rajesh Kumar',
+      tentativeDate: 'September 14, 2025',
     },
     {
       id: '2',
@@ -37,6 +44,8 @@ const Events: React.FC = () => {
       location: 'Main Auditorium',
       image_url: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg',
       type: 'past',
+      members: ['Vikram Reddy', 'Sneha Gupta', 'Arun Kumar'],
+      poc: 'Vikram Reddy',
     },
     {
       id: '3',
@@ -48,6 +57,8 @@ const Events: React.FC = () => {
       location: 'Electronics Lab',
       image_url: 'https://images.pexels.com/photos/586019/pexels-photo-586019.jpeg',
       type: 'past',
+      members: ['Dr. Srinivas Rao', 'Meena Krishnan'],
+      poc: 'Dr. Srinivas Rao',
     },
   ];
 
@@ -64,6 +75,35 @@ const Events: React.FC = () => {
       day: 'numeric',
     });
   };
+
+  const calculateCountdown = (dateString: string, timeString: string) => {
+    const eventDate = new Date(`${dateString}T${timeString}:00`);
+    const now = new Date();
+    const difference = eventDate.getTime() - now.getTime();
+
+    if (difference <= 0) {
+      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+    return { days, hours, minutes, seconds };
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newCountdowns: Record<string, { days: number; hours: number; minutes: number; seconds: number }> = {};
+      upcomingEvents.forEach(event => {
+        newCountdowns[event.id] = calculateCountdown(event.date, event.time);
+      });
+      setCountdowns(newCountdowns);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [upcomingEvents]);
 
   return (
     <section id="events" className="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
@@ -139,6 +179,29 @@ const Events: React.FC = () => {
                     {event.description}
                   </p>
 
+                  {event.type === 'upcoming' && countdowns[event.id] && (
+                    <div className="mb-4 p-3 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg border border-blue-200 dark:border-blue-700">
+                      <div className="flex justify-around text-center">
+                        <div>
+                          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{countdowns[event.id].days}</div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">Days</div>
+                        </div>
+                        <div>
+                          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{countdowns[event.id].hours}</div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">Hours</div>
+                        </div>
+                        <div>
+                          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{countdowns[event.id].minutes}</div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">Mins</div>
+                        </div>
+                        <div>
+                          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{countdowns[event.id].seconds}</div>
+                          <div className="text-xs text-gray-600 dark:text-gray-400">Secs</div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
                       <Calendar className="h-4 w-4 mr-2 text-blue-500" />
@@ -152,6 +215,18 @@ const Events: React.FC = () => {
                       <MapPin className="h-4 w-4 mr-2 text-blue-500" />
                       <span>{event.location}</span>
                     </div>
+                    {event.poc && (
+                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                        <User className="h-4 w-4 mr-2 text-blue-500" />
+                        <span className="font-medium">POC: {event.poc}</span>
+                      </div>
+                    )}
+                    {event.members && event.members.length > 0 && (
+                      <div className="flex items-start text-sm text-gray-600 dark:text-gray-400">
+                        <Users className="h-4 w-4 mr-2 mt-0.5 text-blue-500 flex-shrink-0" />
+                        <span className="line-clamp-2">{event.members.join(', ')}</span>
+                      </div>
+                    )}
                   </div>
 
                   <button className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-300 group/btn">
