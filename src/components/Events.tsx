@@ -66,34 +66,34 @@ const Events: React.FC = () => {
   };
 
   return (
-    <section id="events" className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+    <section id="events" className="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">
             Club <span className="text-blue-600 dark:text-blue-400">Events</span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
             Stay updated with our latest workshops, competitions, and community gatherings.
           </p>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex justify-center mb-12">
-          <div className="inline-flex bg-gray-200 dark:bg-gray-700 rounded-full p-1 shadow-lg">
+        <div className="flex justify-center mb-8 md:mb-12">
+          <div className="inline-flex bg-gray-200 dark:bg-gray-700 rounded-full p-1 shadow-lg w-full sm:w-auto max-w-md">
             <button
               onClick={() => setActiveTab('upcoming')}
-              className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
+              className={`flex-1 sm:flex-none px-4 sm:px-8 py-3 rounded-full font-semibold transition-all duration-300 text-sm sm:text-base ${
                 activeTab === 'upcoming'
                   ? 'bg-blue-600 text-white shadow-lg transform scale-105'
                   : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
-              Upcoming Events
+              Upcoming
             </button>
             <button
               onClick={() => setActiveTab('past')}
-              className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
+              className={`flex-1 sm:flex-none px-4 sm:px-8 py-3 rounded-full font-semibold transition-all duration-300 text-sm sm:text-base ${
                 activeTab === 'past'
                   ? 'bg-blue-600 text-white shadow-lg transform scale-105'
                   : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
@@ -105,7 +105,7 @@ const Events: React.FC = () => {
         </div>
 
         {/* Events Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {displayEvents.length > 0 ? (
             displayEvents.map((event, index) => (
               <div

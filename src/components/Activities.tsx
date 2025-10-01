@@ -45,7 +45,7 @@ const Activities: React.FC = () => {
       icon: Cpu,
       title: 'Electronics Design',
       description: 'Design and build electronic circuits, PCBs, and embedded systems for various amateur radio and space applications.',
-      color: 'from-purple-500 to-pink-500',
+      color: 'from-amber-500 to-orange-500',
       features: ['PCB design', 'Microcontrollers', 'RF circuits']
     },
     {
@@ -59,7 +59,7 @@ const Activities: React.FC = () => {
       icon: Users,
       title: 'Group Projects',
       description: 'Collaborative projects including CubeSat development, ground station building, and emergency communication systems.',
-      color: 'from-indigo-500 to-blue-500',
+      color: 'from-emerald-500 to-green-500',
       features: ['Team collaboration', 'Real applications', 'Skill development']
     },
     {
@@ -72,21 +72,21 @@ const Activities: React.FC = () => {
   ];
 
   return (
-    <section id="activities" ref={sectionRef} className="py-20 bg-gray-50 dark:bg-gray-800">
+    <section id="activities" ref={sectionRef} className="py-12 md:py-20 bg-gray-50 dark:bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">
             Club <span className="text-blue-600 dark:text-blue-400">Activities</span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Discover the exciting world of satellite communication and electronics through our diverse 
+          <p className="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
+            Discover the exciting world of satellite communication and electronics through our diverse
             range of activities designed for all skill levels.
           </p>
         </div>
 
         {/* Activities Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {activities.map((activity, index) => (
             <div key={index} className="activity-card group">
               <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 h-full">

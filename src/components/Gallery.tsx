@@ -84,6 +84,7 @@ const Gallery: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [selectedImage, setSelectedImage] = useState<any>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [showAll, setShowAll] = useState<boolean>(false);
 
   const categories = [
     { id: 'all', name: 'All', count: dummyImages.length },
@@ -115,6 +116,8 @@ const Gallery: React.FC = () => {
     ? dummyImages
     : dummyImages.filter(img => img.category === activeCategory);
 
+  const displayedImages = showAll ? filteredImages : filteredImages.slice(0, 4);
+
   const handleImageClick = (image: any) => {
     setSelectedImage(image);
     document.body.style.overflow = 'hidden';
@@ -127,24 +130,27 @@ const Gallery: React.FC = () => {
 
   return (
     <>
-      <section id="gallery" ref={sectionRef} className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+      <section id="gallery" ref={sectionRef} className="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">
               Our <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Gallery</span>
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
               Explore moments from our events, workshops, and club activities
             </p>
           </div>
 
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12">
             {categories.map((category) => (
               <button
                 key={category.id}
-                onClick={() => setActiveCategory(category.id)}
+                onClick={() => {
+                  setActiveCategory(category.id);
+                  setShowAll(false);
+                }}
                 className={`px-6 py-2.5 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 ${
                   activeCategory === category.id
                     ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/30'
@@ -161,19 +167,19 @@ const Gallery: React.FC = () => {
             ))}
           </div>
 
-          {/* Gallery Grid - Masonry Style */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-            {filteredImages.map((image, index) => (
+          {/* Gallery Grid - Single Row with 4 items */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {displayedImages.map((image, index) => (
               <div
                 key={image.id}
-                className="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer break-inside-avoid bg-white dark:bg-gray-800"
+                className="gallery-item group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer bg-white dark:bg-gray-800"
                 onClick={() => handleImageClick(image)}
               >
-                <div className="relative">
+                <div className="relative aspect-square">
                   <img
                     src={image.image_url}
                     alt={image.title}
-                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
@@ -198,6 +204,26 @@ const Gallery: React.FC = () => {
               </div>
             ))}
           </div>
+
+          {/* View More Button */}
+          {filteredImages.length > 4 && (
+            <div className="text-center mt-12">
+              <button
+                onClick={() => setShowAll(!showAll)}
+                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-lg font-bold rounded-full hover:from-blue-700 hover:to-cyan-700 transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-xl group"
+              >
+                {showAll ? 'Show Less' : `View All ${filteredImages.length} Photos`}
+                <svg
+                  className={`ml-2 h-5 w-5 transition-transform duration-300 ${showAll ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+          )}
 
           {/* Empty State */}
           {filteredImages.length === 0 && (

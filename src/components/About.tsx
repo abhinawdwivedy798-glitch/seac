@@ -59,21 +59,21 @@ const About: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+    <section id="about" className="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">
             About <span className="text-blue-600 dark:text-blue-400">SEAC</span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            The Satellite & Electronics Amateur Club is a vibrant community of students and professionals 
+          <p className="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
+            The Satellite & Electronics Amateur Club is a vibrant community of students and professionals
             passionate about space technology, electronics, and amateur radio.
           </p>
         </div>
 
         {/* Mission and Vision Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-20">
           {missionVision.map((item, index) => (
             <div key={index} className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
               <div className="bg-blue-100 dark:bg-blue-900/30 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
@@ -86,13 +86,13 @@ const About: React.FC = () => {
         </div>
 
         {/* What We Do Section */}
-        <div className="text-center mb-12">
-          <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">What We Do</h3>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <div className="text-center mb-8 md:mb-12">
+          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">What We Do</h3>
+          <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
             Our activities are designed to provide hands-on experience and foster a deep understanding of technology.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-20">
           {whatWeDo.map((item, index) => (
             <div key={index} className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
               <div className="bg-blue-100 dark:bg-blue-900/30 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
@@ -104,20 +104,37 @@ const About: React.FC = () => {
           ))}
         </div>
 
-        {/* Core Values Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 md:p-12 shadow-lg mb-20">
-          <h3 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">Our Core Values</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {coreValues.map((value, index) => (
-              <div key={index} className="text-center">
-                <div className="bg-gradient-to-r from-blue-500 to-cyan-600 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
-                  <value.icon className="h-7 w-7 text-white" />
+        {/* Core Values Section - Enhanced */}
+        <div className="relative overflow-hidden rounded-3xl mb-20">
+          {/* Gradient Background with Pattern */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-cyan-600 to-blue-700"></div>
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+            backgroundSize: '40px 40px'
+          }}></div>
+
+          {/* Content */}
+          <div className="relative z-10 p-8 md:p-16">
+            <h3 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">Our Core Values</h3>
+            <p className="text-blue-100 text-center mb-12 max-w-2xl mx-auto text-lg">
+              The principles that guide everything we do
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+              {coreValues.map((value, index) => (
+                <div key={index} className="text-center group">
+                  <div className="bg-white/20 backdrop-blur-sm w-20 h-20 rounded-2xl flex items-center justify-center mb-6 mx-auto transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-white/30 shadow-xl">
+                    <value.icon className="h-10 w-10 text-white" />
+                  </div>
+                  <h4 className="text-2xl font-bold text-white mb-3 group-hover:scale-105 transition-transform duration-300">{value.title}</h4>
+                  <p className="text-blue-50 leading-relaxed text-base">{value.description}</p>
                 </div>
-                <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{value.title}</h4>
-                <p className="text-gray-600 dark:text-gray-300">{value.description}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          {/* Decorative Elements */}
+          <div className="absolute top-10 right-10 w-32 h-32 bg-white/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 left-10 w-40 h-40 bg-cyan-400/10 rounded-full blur-3xl"></div>
         </div>
 
         {/* Team Section

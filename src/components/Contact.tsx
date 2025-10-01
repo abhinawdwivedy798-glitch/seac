@@ -69,7 +69,7 @@ const Contact: React.FC = () => {
       icon: MapPin,
       title: 'Visit Us',
       details: ['Electronics Building, Room 301', 'University Campus, Tech District'],
-      color: 'from-purple-500 to-pink-500'
+      color: 'from-rose-500 to-pink-500'
     },
     {
       icon: Clock,
@@ -87,19 +87,19 @@ const Contact: React.FC = () => {
   ];
 
   return (
-    <section id="contact" ref={sectionRef} className="py-20 bg-white dark:bg-gray-900">
+    <section id="contact" ref={sectionRef} className="py-12 md:py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">
             Get In <span className="text-blue-600 dark:text-blue-400">Touch</span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
             Have questions about our club or want to join our community? We'd love to hear from you!
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
           {/* Contact Information */}
           <div className="lg:col-span-1">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Contact Information</h3>
